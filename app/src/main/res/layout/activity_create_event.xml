@@ -6,6 +6,57 @@
     android:layout_height="match_parent"
     tools:context=".ShareEventsActivity">
 
+    <EditText
+        android:id="@+id/input_text_hour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/input_text_hour"
+        android:importantForAutofill="no"
+        android:inputType="number|time"
+        android:textColorHint="#78909C"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/input_text_date"
+        app:layout_constraintVertical_bias="0.05" />
+
+    <EditText
+        android:id="@+id/input_text_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/input_text_date"
+        android:importantForAutofill="no"
+        android:inputType="date"
+        android:textColorHint="#78909C"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/input_text_location"
+        app:layout_constraintVertical_bias="0.05" />
+
+    <EditText
+        android:id="@+id/input_text_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/input_text_location"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:textColorHint="#78909C"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/input_text_name"
+        app:layout_constraintVertical_bias="0.05" />
+
     <TextView
         android:id="@+id/create_event_text"
         android:layout_width="wrap_content"
@@ -18,4 +69,36 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.060000002" />
+
+    <EditText
+        android:id="@+id/input_text_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:hint="@string/input_text_name"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:textColorHint="#78909C"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/create_event_text"
+        app:layout_constraintVertical_bias="0.110000014" />
+
+    <Button
+        android:id="@+id/create_create_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/create_create_button_text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/input_text_hour"
+        app:layout_constraintVertical_bias="0.189" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,4 +6,9 @@
     <string name="create_event_text">Create event</string>
     <string name="show_events_text">Show events</string>
     <string name="share_events_text">Share events</string>
+    <string name="input_text_name">Event name</string>
+    <string name="input_text_location">Location</string>
+    <string name="input_text_date">Date</string>
+    <string name="input_text_hour">Start hour</string>
+    <string name="create_create_button_text">Create new event</string>
 </resources>
