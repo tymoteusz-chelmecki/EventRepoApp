@@ -6,27 +6,40 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+
+import database.Event;
 
 public class CreateEventActivity extends AppCompatActivity {
+    private Button createButton;
+    private EventViewModel eventViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
-        Button createButton = (Button) findViewById(R.id.create_create_button);
+        eventViewModel = new ViewModelProvider(this).get(EventViewModel.class);
+        createButton = findViewById(R.id.create_create_button);
         createButton.setOnClickListener(view -> submitNewEvent());
     }
 
     private void submitNewEvent() {
         String eventName = getInputString(R.id.input_text_name);
         String location = getInputString(R.id.input_text_location);
-        String date = getInputString(R.id.input_text_date);
-        String hour = getInputString(R.id.input_text_hour);
-        if (eventName.isEmpty() || location.isEmpty() || date.isEmpty()) {
+
+        String date = "20-02-2023";
+        String startHour = "14:00";
+        double latitude = 23.05;
+        double longitude = 108.40;
+
+        if (eventName.trim().isEmpty() || location.trim().isEmpty()) {
             Toast.makeText(CreateEventActivity.this,
-                    "You have to specify event name, location and date", Toast.LENGTH_LONG).show();
+                    "You have to specify event name and location", Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(CreateEventActivity.this, "Created new event", Toast.LENGTH_LONG).show();
+            Event event = new Event(eventName, location, date, startHour, latitude, longitude);
+            eventViewModel.insert(event);
+
+            Toast.makeText(CreateEventActivity.this, "Created a new event", Toast.LENGTH_LONG).show();
         }
     }
 
