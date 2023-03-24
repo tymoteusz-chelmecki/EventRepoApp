@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import database.Event;
 
@@ -33,7 +34,8 @@ public class EventRecyclerViewAdapter
         Event event = events.get(position);
         holder.name.setText(event.getName());
         holder.location.setText(event.getLocation());
-        holder.date.setText(event.getDate());
+        holder.date.setText(String.format(Locale.getDefault(),
+                "%d-%d-%d", event.getDay(), event.getMonth(), event.getYear()));
         holder.startHour.setText(event.getStartHour());
         holder.latitude.setText(String.valueOf(event.getLatitude()));
         holder.longitude.setText(String.valueOf(event.getLongitude()));
