@@ -14,12 +14,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button createButton = (Button) findViewById(R.id.button_create);
+        Button createButton = findViewById(R.id.button_create);
         createButton.setOnClickListener(startNewActivity(CreateEventActivity.class));
-        Button showButton = (Button) findViewById(R.id.button_show);
+        Button showButton = findViewById(R.id.button_show);
         showButton.setOnClickListener(startNewActivity(ShowEventsActivity.class));
-        Button shareButton = (Button) findViewById(R.id.button_share);
+        Button shareButton = findViewById(R.id.button_share);
         shareButton.setOnClickListener(startNewActivity(ShareEventsActivity.class));
+        Button showLocationButton = findViewById(R.id.button_show_location);
+        showLocationButton.setOnClickListener(startNewActivity(ShowLocationActivity.class));
     }
 
     private View.OnClickListener startNewActivity(Class<? extends AppCompatActivity> newActivity) {

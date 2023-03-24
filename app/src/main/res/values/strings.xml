@@ -3,6 +3,7 @@
     <string name="create_button_text">Create event</string>
     <string name="show_button_text">Show events</string>
     <string name="share_button_text">Share events</string>
+    <string name="show_location_button_text">Show current location</string>
     <string name="create_event_text">Create event</string>
     <string name="show_events_text">Show events</string>
     <string name="share_events_text">Share events</string>

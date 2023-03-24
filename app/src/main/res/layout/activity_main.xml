@@ -10,42 +10,58 @@
         android:id="@+id/button_share"
         android:layout_width="218dp"
         android:layout_height="92dp"
-        android:layout_marginStart="159dp"
-        android:layout_marginTop="352dp"
-        android:layout_marginEnd="159dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/share_button_text"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toTopOf="@id/button_show_location"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/button_show" />
+
+    <Button
+        android:id="@+id/button_show_location"
+        android:layout_width="218dp"
+        android:layout_height="92dp"
+        android:layout_marginStart="159dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="159dp"
+        android:layout_marginBottom="32dp"
+        android:text="@string/show_location_button_text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button_share" />
 
     <Button
         android:id="@+id/button_show"
         android:layout_width="218dp"
         android:layout_height="92dp"
-        android:layout_marginStart="159dp"
-        android:layout_marginTop="204dp"
-        android:layout_marginEnd="159dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/show_button_text"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toTopOf="@+id/button_share"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/button_create" />
 
     <Button
         android:id="@+id/button_create"
         android:layout_width="218dp"
         android:layout_height="92dp"
-        android:layout_marginStart="159dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="159dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/create_button_text"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toTopOf="@id/button_show"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.47000003" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
