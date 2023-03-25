@@ -17,6 +17,13 @@
         android:theme="@style/Theme.EventRepoApp"
         tools:targetApi="31">
         <activity
+            android:name=".BrowseEventsActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".ShowLocationActivity"
             android:exported="false">
             <meta-data
@@ -39,6 +46,13 @@
         </activity>
         <activity
             android:name=".CreateEventActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ShowEventsByNameActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

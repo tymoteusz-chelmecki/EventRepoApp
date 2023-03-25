@@ -1,18 +1,30 @@
 <resources>
     <string name="app_name">EventRepoApp</string>
     <string name="create_button_text">Create event</string>
-    <string name="show_button_text">Show events</string>
     <string name="share_button_text">Share events</string>
+    <string name="browse_button_text">Browse events</string>
     <string name="show_location_button_text">Show current location</string>
     <string name="create_event_text">Create event</string>
+    <string name="browse_events_text">Browse events</string>
     <string name="show_events_text">Show events</string>
     <string name="share_events_text">Share events</string>
+
+    <string name="input_text_browse_name">Event name</string>
+    <string name="input_text_browse_date">Select date</string>
+    <string name="input_text_browse_date_from">Select date from</string>
+    <string name="input_text_browse_date_to">Select date to</string>
+
+    <string name="browse_name_button_text">Search by name</string>
+    <string name="browse_date_button_text">Search for day</string>
+    <string name="browse_date_from_to_button_text">Search between days</string>
+    <string name="show_all_button_text">Show all events</string>
+    
     <string name="input_text_name">Event name</string>
     <string name="input_text_location">Location</string>
     <string name="input_text_date">Select date</string>
     <string name="input_text_latitude">Latitude</string>
     <string name="input_text_longitude">Longitude</string>
     <string name="text_select_hour">Select hour</string>
-    <string name="create_get_location_text">Get current location</string>
+    <string name="create_get_location_text">Create new event</string>
     <string name="create_create_button_text">Create new event</string>
 </resources>

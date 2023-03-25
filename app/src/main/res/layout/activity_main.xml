@@ -18,7 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/button_show" />
+        app:layout_constraintTop_toBottomOf="@id/button_browse" />
 
     <Button
         android:id="@+id/button_show_location"
@@ -37,12 +37,12 @@
         app:layout_constraintTop_toBottomOf="@id/button_share" />
 
     <Button
-        android:id="@+id/button_show"
+        android:id="@+id/button_browse"
         android:layout_width="218dp"
         android:layout_height="92dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/show_button_text"
+        android:text="@string/browse_button_text"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toTopOf="@+id/button_share"
         app:layout_constraintEnd_toEndOf="parent"
@@ -57,7 +57,7 @@
         android:layout_marginBottom="8dp"
         android:text="@string/create_button_text"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintBottom_toTopOf="@id/button_show"
+        app:layout_constraintBottom_toTopOf="@id/button_browse"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"

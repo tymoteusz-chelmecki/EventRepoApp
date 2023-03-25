@@ -2,7 +2,6 @@ package com.example.event_repo_app;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
-
 import static com.example.event_repo_app.EventApplication.REQUEST_LOCATION_ACCESS;
 
 import android.content.Context;
@@ -25,8 +24,8 @@ public class MainActivity extends AppCompatActivity {
 
         Button createButton = findViewById(R.id.button_create);
         createButton.setOnClickListener(startNewActivity(CreateEventActivity.class));
-        Button showButton = findViewById(R.id.button_show);
-        showButton.setOnClickListener(startNewActivity(ShowEventsActivity.class));
+        Button browseButton = findViewById(R.id.button_browse);
+        browseButton.setOnClickListener(startNewActivity(BrowseEventsActivity.class));
         Button shareButton = findViewById(R.id.button_share);
         shareButton.setOnClickListener(startNewActivity(ShareEventsActivity.class));
         Button showLocationButton = findViewById(R.id.button_show_location);
