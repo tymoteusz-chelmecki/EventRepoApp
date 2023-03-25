@@ -1,9 +1,16 @@
 package com.example.event_repo_app;
 
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static com.example.event_repo_app.EventApplication.REQUEST_LOCATION_ACCESS;
 import static java.lang.String.format;
 
 import android.app.DatePickerDialog;
+import android.content.pm.PackageManager;
 import android.icu.util.Calendar;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.InputType;
 import android.widget.Button;
@@ -12,7 +19,9 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.Arrays;
@@ -23,11 +32,16 @@ import java.util.stream.Collectors;
 import database.Event;
 
 public class CreateEventActivity extends AppCompatActivity {
-    private Button createButton;
     private EventViewModel eventViewModel;
     private EditText dateEditText;
     private NumberPicker hourPicker;
     private NumberPicker minutePicker;
+    private EditText latitudeEditText;
+    private EditText longitudeEditText;
+    private LocationManager locationManager;
+
+    private double latitude;
+    private double longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +60,25 @@ public class CreateEventActivity extends AppCompatActivity {
         minutePicker.setMinValue(0);
         minutePicker.setMaxValue(59);
 
-        createButton = findViewById(R.id.create_create_button);
+        latitudeEditText = findViewById(R.id.input_text_latitude);
+        longitudeEditText = findViewById(R.id.input_text_longitude);
+        Button getCurrentLocationButton = findViewById(R.id.create_get_location_button);
+        getCurrentLocationButton.setOnClickListener(view -> fillCurrentLocation());
+
+        locationManager = ((EventApplication) getApplicationContext()).getLocationManager();
+        LocationListener listener = new CreateEventActivity.LocationListenerImpl();
+        if (ActivityCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION},
+                    REQUEST_LOCATION_ACCESS);
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 50, listener);
+
+        Button createButton = findViewById(R.id.create_create_button);
         createButton.setOnClickListener(view -> submitNewEvent());
     }
 
@@ -77,9 +109,6 @@ public class CreateEventActivity extends AppCompatActivity {
         int hour = hourPicker.getValue();
         int minute = minutePicker.getValue();
 
-        double latitude = 23.05;
-        double longitude = 108.40;
-
         if (eventName.trim().isEmpty() || location.trim().isEmpty()) {
             Toast.makeText(CreateEventActivity.this,
                     "You have to specify event name and location", Toast.LENGTH_LONG).show();
@@ -94,5 +123,47 @@ public class CreateEventActivity extends AppCompatActivity {
 
     private String getInputString(int viewId) {
         return ((TextView) findViewById(viewId)).getText().toString();
+    }
+
+    private void fillCurrentLocation() {
+        latitudeEditText.setText(String.valueOf(latitude));
+        longitudeEditText.setText(String.valueOf(longitude));
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_LOCATION_ACCESS) {
+            if (grantResults[0] != PackageManager.PERMISSION_GRANTED
+                    || grantResults[1] != PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "You have to grant location access to this application.",
+                        Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "Permissions to access location granted", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private class LocationListenerImpl implements LocationListener {
+
+        @Override
+        public void onProviderEnabled(String provider) {
+            if (ActivityCompat.checkSelfPermission(CreateEventActivity.this, ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED &&
+                    ActivityCompat.checkSelfPermission(CreateEventActivity.this, ACCESS_COARSE_LOCATION)
+                            != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+            Location location = locationManager.getLastKnownLocation(provider);
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
+        }
+
+        @Override
+        public void onLocationChanged(@NonNull Location location) {
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
+        }
     }
 }

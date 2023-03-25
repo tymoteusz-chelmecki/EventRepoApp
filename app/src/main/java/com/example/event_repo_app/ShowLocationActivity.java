@@ -57,7 +57,6 @@ public class ShowLocationActivity extends AppCompatActivity {
                 Toast.makeText(this, "Permissions to access location granted", Toast.LENGTH_LONG).show();
             }
         }
-
     }
 
     private class LocationListenerImpl implements LocationListener {

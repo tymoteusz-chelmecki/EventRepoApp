@@ -72,6 +72,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:maxHeight="40dp"
         app:layout_constraintBottom_toTopOf="@+id/create_create_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.66"
@@ -113,6 +114,51 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/input_text_date"
-        app:layout_constraintVertical_bias="0.13999999" />
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/input_text_latitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:width="160dp"
+        android:ems="10"
+        android:hint="@string/input_text_latitude"
+        android:inputType="numberDecimal"
+        android:minHeight="48dp"
+        android:textColorHint="#757575"
+        app:layout_constraintBottom_toTopOf="@+id/create_create_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/picker_hour"
+        app:layout_constraintVertical_bias="0.20999998" />
+
+    <EditText
+        android:id="@+id/input_text_longitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:width="160dp"
+        android:ems="10"
+        android:hint="@string/input_text_longitude"
+        android:inputType="numberDecimal"
+        android:minHeight="48dp"
+        android:textColorHint="#757575"
+        app:layout_constraintBottom_toTopOf="@+id/create_create_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/picker_hour"
+        app:layout_constraintVertical_bias="0.20999998" />
+
+    <Button
+        android:id="@+id/create_get_location_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/create_get_location_text"
+        app:layout_constraintBottom_toTopOf="@id/create_create_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/input_text_latitude" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
