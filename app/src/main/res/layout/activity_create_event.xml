@@ -7,6 +7,23 @@
     tools:context=".ShareEventsActivity">
 
     <EditText
+        android:id="@+id/input_text_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="@string/input_text_name"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:textColorHint="#78909C"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@id/input_text_location"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/create_event_text"
+        tools:layout_constraintTop_toBottomOf="@id/create_event_text" />
+
+    <EditText
         android:id="@+id/input_text_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,12 +33,11 @@
         android:inputType="text"
         android:textColorHint="#78909C"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/input_text_date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/input_text_name"
-        app:layout_constraintVertical_bias="0.05" />
+        app:layout_constraintTop_toBottomOf="@id/input_text_name" />
 
     <EditText
         android:id="@+id/input_text_date"
@@ -30,15 +46,38 @@
         android:ems="10"
         android:hint="@string/input_text_date"
         android:importantForAutofill="no"
-        android:inputType="text"
+        android:inputType="date"
         android:textColorHint="#78909C"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/input_text_location"
         app:layout_constraintVertical_bias="0.05" />
+
+    <NumberPicker
+        android:id="@+id/picker_hour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/create_create_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.34"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_select_hour"
+        app:layout_constraintVertical_bias="0.101" />
+
+    <NumberPicker
+        android:id="@+id/picker_minute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/create_create_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.66"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_select_hour"
+        app:layout_constraintVertical_bias="0.101" />
 
     <TextView
         android:id="@+id/create_event_text"
@@ -53,23 +92,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.060000002" />
 
-    <EditText
-        android:id="@+id/input_text_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:ems="10"
-        android:hint="@string/input_text_name"
-        android:importantForAutofill="no"
-        android:inputType="text"
-        android:textColorHint="#78909C"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/create_event_text"
-        app:layout_constraintVertical_bias="0.110000014" />
-
     <Button
         android:id="@+id/create_create_button"
         android:layout_width="wrap_content"
@@ -80,5 +102,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/text_select_hour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_select_hour"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/create_create_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/input_text_date"
+        app:layout_constraintVertical_bias="0.13999999" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

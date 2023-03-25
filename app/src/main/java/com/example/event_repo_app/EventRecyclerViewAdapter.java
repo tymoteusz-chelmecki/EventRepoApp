@@ -36,7 +36,8 @@ public class EventRecyclerViewAdapter
         holder.location.setText(event.getLocation());
         holder.date.setText(String.format(Locale.getDefault(),
                 "%d-%d-%d", event.getDay(), event.getMonth(), event.getYear()));
-        holder.startHour.setText(event.getStartHour());
+        holder.startHour.setText(String.format(Locale.getDefault(), "%d:%d",
+                event.getHour(), event.getMinute()));
         holder.latitude.setText(String.valueOf(event.getLatitude()));
         holder.longitude.setText(String.valueOf(event.getLongitude()));
     }

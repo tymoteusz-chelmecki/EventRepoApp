@@ -25,8 +25,11 @@ public class Event {
     @ColumnInfo(name = "year")
     private final int year;
 
-    @ColumnInfo(name = "start_hour")
-    private final String startHour;
+    @ColumnInfo(name = "hour")
+    private final int hour;
+
+    @ColumnInfo(name = "minute")
+    private final int minute;
 
     @ColumnInfo(name = "latitude")
     private final double latitude;
@@ -34,14 +37,15 @@ public class Event {
     @ColumnInfo(name = "longitude")
     private final double longitude;
 
-    public Event(String name, String location, int day, int month, int year, String startHour,
+    public Event(String name, String location, int day, int month, int year, int hour, int minute,
                  double latitude, double longitude) {
         this.name = name;
         this.location = location;
         this.day = day;
         this.month = month;
         this.year = year;
-        this.startHour = startHour;
+        this.hour = hour;
+        this.minute = minute;
         this.latitude = latitude;
         this.longitude = longitude;
     }
@@ -74,8 +78,12 @@ public class Event {
         return year;
     }
 
-    public String getStartHour() {
-        return startHour;
+    public int getHour() {
+        return hour;
+    }
+
+    public int getMinute() {
+        return minute;
     }
 
     public double getLatitude() {

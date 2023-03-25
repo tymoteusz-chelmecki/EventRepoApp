@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,8 @@ public class CreateEventActivity extends AppCompatActivity {
     private Button createButton;
     private EventViewModel eventViewModel;
     private EditText dateEditText;
+    private NumberPicker hourPicker;
+    private NumberPicker minutePicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,13 @@ public class CreateEventActivity extends AppCompatActivity {
         dateEditText = findViewById(R.id.input_text_date);
         dateEditText.setInputType(InputType.TYPE_NULL);
         dateEditText.setOnClickListener(view -> selectDate());
+
+        hourPicker = findViewById(R.id.picker_hour);
+        minutePicker = findViewById(R.id.picker_minute);
+        hourPicker.setMinValue(0);
+        hourPicker.setMaxValue(23);
+        minutePicker.setMinValue(0);
+        minutePicker.setMaxValue(59);
 
         createButton = findViewById(R.id.create_create_button);
         createButton.setOnClickListener(view -> submitNewEvent());
@@ -64,7 +74,9 @@ public class CreateEventActivity extends AppCompatActivity {
         int month = selectedDate.get(1);
         int year = selectedDate.get(2);
 
-        String startHour = "14:00";
+        int hour = hourPicker.getValue();
+        int minute = minutePicker.getValue();
+
         double latitude = 23.05;
         double longitude = 108.40;
 
@@ -72,7 +84,7 @@ public class CreateEventActivity extends AppCompatActivity {
             Toast.makeText(CreateEventActivity.this,
                     "You have to specify event name and location", Toast.LENGTH_LONG).show();
         } else {
-            Event event = new Event(eventName, location, day, month, year, startHour,
+            Event event = new Event(eventName, location, day, month, year, hour, minute,
                     latitude, longitude);
             eventViewModel.insert(event);
 
