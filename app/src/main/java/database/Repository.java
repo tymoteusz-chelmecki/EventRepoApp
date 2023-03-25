@@ -10,7 +10,6 @@ import com.google.common.collect.Iterables;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiConsumer;
-import java.util.function.Function;
 
 public class Repository {
     private final EventDao eventDao;
@@ -41,8 +40,20 @@ public class Repository {
         return eventDao.getByName(name);
     }
 
-    public LiveData<List<Event>> getForDate(int day, int month, int year) {
-        return eventDao.getForDate(day, month, year);
+    public LiveData<List<Event>> getByDate(String date) {
+        String[] splitDate = date.trim().split("-");
+        if (splitDate.length != 3) {
+            throw new IllegalArgumentException(
+                    date + " is not in a supported date format (dd-mm-yyyy)");
+        }
+        int day = Integer.parseInt(splitDate[0]);
+        int month = Integer.parseInt(splitDate[1]);
+        int year = Integer.parseInt(splitDate[2]);
+        return getByDate(day, month, year);
+    }
+
+    public LiveData<List<Event>> getByDate(int day, int month, int year) {
+        return eventDao.getByDate(day, month, year);
     }
 
     public LiveData<List<Event>> getBetweenDates(int fromDay, int fromMonth, int fromYear,
@@ -65,22 +76,6 @@ public class Repository {
             Event event = Iterables.getOnlyElement(Arrays.asList(events));
             eventStatement.accept(eventDao, event);
             return null;
-        }
-    }
-
-    private static class EventQueryTask extends AsyncTask<Event, Void, LiveData<List<Event>>> {
-        private final EventDao eventDao;
-        private final Function<EventDao, LiveData<List<Event>>> queryAction;
-
-        public EventQueryTask(EventDao eventDao, Function<EventDao, LiveData<List<Event>>> queryAction) {
-            super();
-            this.eventDao = eventDao;
-            this.queryAction = queryAction;
-        }
-
-        @Override
-        protected LiveData<List<Event>> doInBackground(Event... events) {
-            return queryAction.apply(eventDao);
         }
     }
 

@@ -23,8 +23,8 @@ public interface EventDao {
     LiveData<List<Event>> getByName(String name);
 
     @Query("SELECT * FROM events WHERE day = :day AND month = :month AND year = :year " +
-            "ORDER BY year, month, day ASC")
-    LiveData<List<Event>> getForDate(int day, int month, int year);
+            "ORDER BY name, location ASC")
+    LiveData<List<Event>> getByDate(int day, int month, int year);
 
     @Query("SELECT * FROM events WHERE (day >= :fromDay AND month >= :fromMonth AND year >= :fromYear "+
             "AND day <= :toDay AND month <= :toMonth AND year <= :toYear ) " +

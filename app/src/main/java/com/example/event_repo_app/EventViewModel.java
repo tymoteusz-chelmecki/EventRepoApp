@@ -17,13 +17,16 @@ public class EventViewModel extends AndroidViewModel {
     private final Repository repository;
     private final LiveData<List<Event>> events;
     private final LiveData<List<Event>> eventsByName;
+    private final LiveData<List<Event>> eventsByDate;
     private final MutableLiveData<String> mutableEventsByName = new MutableLiveData<>();
+    private final MutableLiveData<String> mutableEventsByDate = new MutableLiveData<>();
 
     public EventViewModel(@NonNull Application application) {
         super(application);
         repository = new Repository(application);
         events = repository.getAllEvents();
         eventsByName = Transformations.switchMap(mutableEventsByName, repository::getByName);
+        eventsByDate = Transformations.switchMap(mutableEventsByDate, repository::getByDate);
     }
 
     public LiveData<List<Event>> getAllEvents() {
@@ -38,6 +41,10 @@ public class EventViewModel extends AndroidViewModel {
         return eventsByName;
     }
 
+    public LiveData<List<Event>> getEventsByDate() {
+        return eventsByDate;
+    }
+
     public void delete(Event event) {
         repository.delete(event);
     }
@@ -48,5 +55,9 @@ public class EventViewModel extends AndroidViewModel {
 
     public void setQueryName(String name) {
         mutableEventsByName.setValue(name);
+    }
+
+    public void setQueryDate(String date) {
+        mutableEventsByDate.setValue(date);
     }
 }
