@@ -28,10 +28,28 @@
                 android:inputType="textPersonName"
                 android:minHeight="48dp"
                 android:textColorHint="#757575"
-                app:layout_constraintBottom_toTopOf="@id/button_show_all"
+                app:layout_constraintBottom_toTopOf="@id/button_browse_date"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/button_browse_name"
+                tools:layout_constraintTop_toBottomOf="@id/browse_events_text" />
+
+            <EditText
+                android:id="@+id/input_text_browse_area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="2dp"
+                android:height="48dp"
+                android:ems="10"
+                android:hint="@string/input_text_browse_area"
+                android:inputType="textPersonName"
+                android:minHeight="48dp"
+                android:textColorHint="#757575"
+                app:layout_constraintBottom_toTopOf="@id/button_show_all"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/button_browse_date"
                 tools:layout_constraintTop_toBottomOf="@id/browse_events_text" />
 
             <Button
@@ -44,7 +62,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/button_browse_date" />
+                app:layout_constraintTop_toBottomOf="@id/input_text_browse_area" />
 
             <TextView
                 android:id="@+id/browse_events_text"
@@ -77,12 +95,23 @@
                 android:id="@+id/button_browse_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:text="@string/browse_date_button_text"
                 android:textSize="20sp"
+                app:layout_constraintBottom_toTopOf="@id/input_text_browse_area"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/input_text_browse_date" />
+
+            <Button
+                android:id="@+id/button_browse_area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/browse_area_button_text"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toTopOf="@id/button_show_all"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/input_text_browse_area" />
 
             <EditText
                 android:id="@+id/input_text_browse_name"

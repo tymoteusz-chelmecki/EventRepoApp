@@ -13,10 +13,12 @@
     <string name="input_text_browse_date">Select date</string>
     <string name="input_text_browse_date_from">Select date from</string>
     <string name="input_text_browse_date_to">Select date to</string>
+    <string name="input_text_browse_area">Distance from you (km)</string>
 
     <string name="browse_name_button_text">Search by name</string>
     <string name="browse_date_button_text">Search by day</string>
     <string name="browse_date_from_to_button_text">Search between days</string>
+    <string name="browse_area_button_text">Search events in area</string>
     <string name="show_all_button_text">Show all events</string>
     
     <string name="input_text_name">Event name</string>
