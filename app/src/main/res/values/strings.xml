@@ -27,6 +27,6 @@
     <string name="input_text_latitude">Latitude</string>
     <string name="input_text_longitude">Longitude</string>
     <string name="text_select_hour">Select hour</string>
-    <string name="create_get_location_text">Create new event</string>
+    <string name="create_get_location_text">Get current location</string>
     <string name="create_create_button_text">Create new event</string>
 </resources>
