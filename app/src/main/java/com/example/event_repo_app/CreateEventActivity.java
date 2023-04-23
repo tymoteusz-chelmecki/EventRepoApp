@@ -69,7 +69,7 @@ public class CreateEventActivity extends AppCompatActivity {
         LocationListener listener = new CreateEventActivity.LocationListenerImpl();
         if (ActivityCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, ACCESS_COARSE_LOCATION)
+                || ActivityCompat.checkSelfPermission(this, ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
                     new String[]{ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION},

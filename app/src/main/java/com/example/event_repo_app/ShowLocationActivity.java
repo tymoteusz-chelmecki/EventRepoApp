@@ -32,7 +32,7 @@ public class ShowLocationActivity extends AppCompatActivity {
                 getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, ACCESS_COARSE_LOCATION)
+                || ActivityCompat.checkSelfPermission(this, ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
                     new String[]{ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION},
@@ -64,7 +64,7 @@ public class ShowLocationActivity extends AppCompatActivity {
         @Override
         public void onProviderEnabled(String provider) {
             if (ActivityCompat.checkSelfPermission(ShowLocationActivity.this, ACCESS_FINE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED &&
+                    != PackageManager.PERMISSION_GRANTED ||
                     ActivityCompat.checkSelfPermission(ShowLocationActivity.this, ACCESS_COARSE_LOCATION)
                             != PackageManager.PERMISSION_GRANTED) {
                 return;
