@@ -98,7 +98,13 @@ public class CreateEventActivity extends AppCompatActivity {
     private void submitNewEvent() {
         String eventName = getInputString(R.id.input_text_name);
         String location = getInputString(R.id.input_text_location);
-        List<Integer> selectedDate = Arrays.stream(getInputString(R.id.input_text_date)
+        String dateString = getInputString(R.id.input_text_date);
+        if (dateString.trim().isEmpty()) {
+            Toast.makeText(CreateEventActivity.this,
+                    "You have to specify date", Toast.LENGTH_LONG).show();
+            return;
+        }
+        List<Integer> selectedDate = Arrays.stream(dateString
                 .split("-"))
                 .map(Integer::parseInt)
                 .collect(Collectors.toList());
