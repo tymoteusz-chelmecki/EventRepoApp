@@ -6,6 +6,7 @@ public class Constants {
     public static final String BROWSE_AREA = "browse_area";
     public static final String LATITUDE = "latitude";
     public static final String LONGITUDE = "longitude";
+    public static final String EVENTS_EXTRA = "events_extra";
 
     private Constants() {}
 }
