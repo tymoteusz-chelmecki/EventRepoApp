@@ -123,10 +123,21 @@ public class CreateEventActivity extends AppCompatActivity {
                     latitude, longitude);
             eventViewModel.insert(event);
 
+            sendToServer(event);
+
             Toast.makeText(CreateEventActivity.this, "Created a new event", Toast.LENGTH_LONG).show();
         }
     }
 
+    private void sendToServer(Event event) {
+        try {
+            ClientEventSender sender = new ClientEventSender(event);
+            Thread thread = new Thread(sender);
+            thread.start();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
     private String getInputString(int viewId) {
         return ((TextView) findViewById(viewId)).getText().toString();
     }
@@ -156,7 +167,7 @@ public class CreateEventActivity extends AppCompatActivity {
         @Override
         public void onProviderEnabled(String provider) {
             if (ActivityCompat.checkSelfPermission(CreateEventActivity.this, ACCESS_FINE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED &&
+                    != PackageManager.PERMISSION_GRANTED ||
                     ActivityCompat.checkSelfPermission(CreateEventActivity.this, ACCESS_COARSE_LOCATION)
                             != PackageManager.PERMISSION_GRANTED) {
                 return;

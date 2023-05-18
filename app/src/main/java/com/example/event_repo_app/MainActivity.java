@@ -2,6 +2,8 @@ package com.example.event_repo_app;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.Manifest.permission.ACCESS_NETWORK_STATE;
+import static android.Manifest.permission.INTERNET;
 import static com.example.event_repo_app.Constants.EVENTS_EXTRA;
 import static com.example.event_repo_app.EventApplication.REQUEST_LOCATION_ACCESS;
 
@@ -27,6 +29,12 @@ import java.util.Arrays;
 import database.Event;
 
 public class MainActivity extends AppCompatActivity {
+    private final static String[] PERMISSIONS = new String[]{
+        ACCESS_FINE_LOCATION,
+        ACCESS_COARSE_LOCATION,
+        INTERNET,
+        ACCESS_NETWORK_STATE
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,16 +58,19 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        LocationManager locationManager = (LocationManager)
-                getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED
                 || ActivityCompat.checkSelfPermission(this, ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(this, INTERNET)
+                != PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(this, ACCESS_NETWORK_STATE)
                 != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}, REQUEST_LOCATION_ACCESS);
+            ActivityCompat.requestPermissions(this, PERMISSIONS, REQUEST_LOCATION_ACCESS);
             return;
         }
+        LocationManager locationManager = (LocationManager)
+                getSystemService(Context.LOCATION_SERVICE);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 50,
                 new LocationListenerImpl());
 
@@ -81,10 +92,11 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == REQUEST_LOCATION_ACCESS) {
             if (grantResults[0] != PackageManager.PERMISSION_GRANTED
                     || grantResults[1] != PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "You have to grant location access to this application.",
+                Toast.makeText(this, "You have to grant location and internet access to this application.",
                         Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(this, "Permissions to access location granted", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Permissions to access location and internet connection granted",
+                        Toast.LENGTH_LONG).show();
             }
         }
     }
