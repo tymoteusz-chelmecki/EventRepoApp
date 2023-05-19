@@ -31,4 +31,5 @@
     <string name="create_create_button_text">Create new event</string>
 
     <string name="show_map_button_text">Show map</string>
+    <string name="show_on_map_button_text">Show on map</string>
 </resources>

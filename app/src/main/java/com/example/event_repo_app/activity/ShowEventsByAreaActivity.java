@@ -35,7 +35,7 @@ public class ShowEventsByAreaActivity extends AppCompatActivity {
 
         showMapButton =  findViewById(R.id.button_show_map);
         recyclerView = findViewById(R.id.recycler_view);
-        recyclerViewAdapter = new EventRecyclerViewAdapter();
+        recyclerViewAdapter = new EventRecyclerViewAdapter(this);
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 

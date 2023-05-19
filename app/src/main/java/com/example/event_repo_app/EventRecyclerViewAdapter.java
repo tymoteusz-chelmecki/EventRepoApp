@@ -1,14 +1,23 @@
 package com.example.event_repo_app;
 
+import static com.example.event_repo_app.Constants.EVENTS_EXTRA;
+
+import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.event_repo_app.activity.MapActivity;
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -17,8 +26,10 @@ import database.Event;
 public class EventRecyclerViewAdapter
         extends RecyclerView.Adapter<EventRecyclerViewAdapter.ViewHolder> {
     private ArrayList<Event> events = new ArrayList<>();
+    private final Activity activity;
 
-    public EventRecyclerViewAdapter() {
+    public EventRecyclerViewAdapter(Activity activity) {
+        this.activity = activity;
     }
 
     @NonNull
@@ -39,6 +50,17 @@ public class EventRecyclerViewAdapter
                 event.getHour(), event.getMinute()));
         holder.latitude.setText(String.valueOf(event.getLatitude()));
         holder.longitude.setText(String.valueOf(event.getLongitude()));
+        holder.showOnMap.setOnClickListener(showOnMap(event));
+    }
+
+    private View.OnClickListener showOnMap(Event event) {
+        return view -> {
+            Intent intent = new Intent(activity, MapActivity.class);
+            Gson gson = new Gson();
+            String eventsJson = gson.toJson(Collections.singletonList(event));
+            intent.putExtra(EVENTS_EXTRA, eventsJson);
+            activity.startActivity(intent);
+        };
     }
 
     @Override
@@ -58,6 +80,7 @@ public class EventRecyclerViewAdapter
         private final TextView startHour;
         private final TextView latitude;
         private final TextView longitude;
+        private final Button showOnMap;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -67,6 +90,7 @@ public class EventRecyclerViewAdapter
             startHour = itemView.findViewById(R.id.item_start_hour);
             latitude = itemView.findViewById(R.id.item_latitude);
             longitude = itemView.findViewById(R.id.item_longitude);
+            showOnMap = itemView.findViewById(R.id.button_show_on_map);
         }
     }
 }
