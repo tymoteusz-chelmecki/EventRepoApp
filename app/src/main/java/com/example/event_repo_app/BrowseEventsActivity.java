@@ -23,6 +23,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.util.Locale;
 
@@ -38,8 +39,8 @@ public class BrowseEventsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browse_events);
 
-        locationManager = ((EventApplication) getApplicationContext()).getLocationManager();
-        LocationListener listener = new BrowseEventsActivity.LocationListenerImpl();
+        fetchEventsFromServer();
+
         if (ActivityCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, ACCESS_COARSE_LOCATION)
@@ -49,6 +50,8 @@ public class BrowseEventsActivity extends AppCompatActivity {
                     REQUEST_LOCATION_ACCESS);
             return;
         }
+        locationManager = ((EventApplication) getApplicationContext()).getLocationManager();
+        LocationListener listener = new BrowseEventsActivity.LocationListenerImpl();
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 50, listener);
 
 
@@ -101,6 +104,13 @@ public class BrowseEventsActivity extends AppCompatActivity {
 
         Button showButton = findViewById(R.id.button_show_all);
         showButton.setOnClickListener(startNewActivity(ShowEventsActivity.class));
+    }
+
+    private void fetchEventsFromServer() {
+        EventViewModel eventViewModel = new ViewModelProvider(this).get(EventViewModel.class);
+        ClientEventFetcher fetcher = new ClientEventFetcher(eventViewModel);
+        Thread thread = new Thread(fetcher);
+        thread.start();
     }
 
     private View.OnClickListener startNewActivity(Class<? extends AppCompatActivity> newActivity) {

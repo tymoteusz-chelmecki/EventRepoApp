@@ -4,6 +4,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Objects;
+
 @Entity(tableName = "events")
 public class Event {
 
@@ -92,5 +94,30 @@ public class Event {
 
     public double getLongitude() {
         return longitude;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Event)) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        Event other = (Event) obj;
+        return other.name.equals(this.name)
+                && other.location.equals(this.location)
+                && other.year == this.year
+                && other.month == this.month
+                && other.day == this.day
+                && other.hour == this.hour
+                && other.minute == this.minute
+                && other.latitude == this.latitude
+                && other.longitude == this.longitude;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, location, year, month, day, hour, minute, latitude, longitude);
     }
 }
