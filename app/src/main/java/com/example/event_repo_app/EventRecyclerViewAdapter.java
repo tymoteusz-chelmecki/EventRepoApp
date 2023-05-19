@@ -19,7 +19,6 @@ public class EventRecyclerViewAdapter
     private ArrayList<Event> events = new ArrayList<>();
 
     public EventRecyclerViewAdapter() {
-
     }
 
     @NonNull

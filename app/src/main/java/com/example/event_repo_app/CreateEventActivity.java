@@ -126,6 +126,7 @@ public class CreateEventActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
     private String getInputString(int viewId) {
         return ((TextView) findViewById(viewId)).getText().toString();
     }

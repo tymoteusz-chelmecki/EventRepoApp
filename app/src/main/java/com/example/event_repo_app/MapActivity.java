@@ -4,7 +4,6 @@ import static com.example.event_repo_app.Constants.EVENTS_EXTRA;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -33,6 +32,7 @@ import java.util.List;
 
 import database.Event;
 
+@SuppressWarnings("UnstableApiUsage")
 public class MapActivity extends AppCompatActivity {
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
     private MapView map = null;
@@ -45,7 +45,7 @@ public class MapActivity extends AppCompatActivity {
                 PreferenceManager.getDefaultSharedPreferences(context));
 
         setContentView(R.layout.activity_map);
-        map = (MapView) findViewById(R.id.map);
+        map = findViewById(R.id.map);
         map.setTileSource(TileSourceFactory.MAPNIK);
 
         Gson gson = new Gson();
@@ -92,7 +92,6 @@ public class MapActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
         map.onResume();
     }
@@ -100,8 +99,7 @@ public class MapActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        Configuration.getInstance().save(this, prefs);
+        Configuration.getInstance().save(this, PreferenceManager.getDefaultSharedPreferences(this));
         map.onPause();
     }
 

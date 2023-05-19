@@ -23,7 +23,6 @@ public class EventViewModel extends AndroidViewModel {
     private final MutableLiveData<String> mutableEventsByName = new MutableLiveData<>();
     private final MutableLiveData<String> mutableEventsByDate = new MutableLiveData<>();
 
-    private List<Event> filteredEvents;
 
     public EventViewModel(@NonNull Application application) {
         super(application);
