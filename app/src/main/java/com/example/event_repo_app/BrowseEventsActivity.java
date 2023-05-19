@@ -1,13 +1,10 @@
 package com.example.event_repo_app;
 
-import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
-import static android.Manifest.permission.ACCESS_FINE_LOCATION;
-import static com.example.event_repo_app.EventApplication.REQUEST_LOCATION_ACCESS;
 import static java.lang.String.format;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.icu.util.Calendar;
 import android.location.Location;
 import android.location.LocationListener;
@@ -22,7 +19,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.Locale;
@@ -34,6 +30,7 @@ public class BrowseEventsActivity extends AppCompatActivity {
     private double latitude;
     private double longitude;
 
+    @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,19 +38,9 @@ public class BrowseEventsActivity extends AppCompatActivity {
 
         fetchEventsFromServer();
 
-        if (ActivityCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION},
-                    REQUEST_LOCATION_ACCESS);
-            return;
-        }
         locationManager = ((EventApplication) getApplicationContext()).getLocationManager();
         LocationListener listener = new BrowseEventsActivity.LocationListenerImpl();
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 50, listener);
-
 
         Button browseByNameButton = findViewById(R.id.button_browse_name);
         browseByNameButton.setOnClickListener(view -> {
@@ -133,35 +120,7 @@ public class BrowseEventsActivity extends AppCompatActivity {
         pickerDialog.show();
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_LOCATION_ACCESS) {
-            if (grantResults[0] != PackageManager.PERMISSION_GRANTED
-                    || grantResults[1] != PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "You have to grant location access to this application.",
-                        Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(this, "Permissions to access location granted", Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
     private class LocationListenerImpl implements LocationListener {
-
-        @Override
-        public void onProviderEnabled(String provider) {
-            if (ActivityCompat.checkSelfPermission(BrowseEventsActivity.this, ACCESS_FINE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED &&
-                    ActivityCompat.checkSelfPermission(BrowseEventsActivity.this, ACCESS_COARSE_LOCATION)
-                            != PackageManager.PERMISSION_GRANTED) {
-                return;
-            }
-            Location location = locationManager.getLastKnownLocation(provider);
-            latitude = location.getLatitude();
-            longitude = location.getLongitude();
-        }
 
         @Override
         public void onLocationChanged(@NonNull Location location) {
