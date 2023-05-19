@@ -24,8 +24,14 @@ import androidx.lifecycle.ViewModelProvider;
 import java.util.Locale;
 
 public class BrowseEventsActivity extends AppCompatActivity {
-    private EditText dateEditText;
     private LocationManager locationManager;
+    private Button browseByNameButton;
+    private Button browseByDateButton;
+    private Button browseByAreaButton;
+    private Button showAllButton;
+    private TextView nameEditText;
+    private EditText dateEditText;
+    private TextView areaEditText;
 
     private double latitude;
     private double longitude;
@@ -42,55 +48,23 @@ public class BrowseEventsActivity extends AppCompatActivity {
         LocationListener listener = new BrowseEventsActivity.LocationListenerImpl();
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 50, listener);
 
-        Button browseByNameButton = findViewById(R.id.button_browse_name);
-        browseByNameButton.setOnClickListener(view -> {
-                String name = ((TextView) findViewById(R.id.input_text_browse_name)).getText().toString();
-                if (name.trim().isEmpty()) {
-                    Toast.makeText(BrowseEventsActivity.this, "You have to provide event name",
-                            Toast.LENGTH_LONG).show();
-                    return;
-                }
-                Intent intent = new Intent(BrowseEventsActivity.this, ShowEventsByNameActivity.class);
-                intent.putExtra(Constants.BROWSE_NAME, name);
-                startActivity(intent);
-        });
+        nameEditText = findViewById(R.id.input_text_browse_name);
+        browseByNameButton = findViewById(R.id.button_browse_name);
+        browseByNameButton.setOnClickListener(getBrowseByNameListener());
 
         dateEditText = findViewById(R.id.input_text_browse_date);
         dateEditText.setInputType(InputType.TYPE_NULL);
         dateEditText.setOnClickListener(view -> selectDate());
 
-        Button browseByDateButton = findViewById(R.id.button_browse_date);
-        browseByDateButton.setOnClickListener(view -> {
-            String date = dateEditText.getText().toString();
-            Intent intent = new Intent(BrowseEventsActivity.this, ShowEventsByDateActivity.class);
-            intent.putExtra(Constants.BROWSE_DATE, date);
-            startActivity(intent);
-        });
+        browseByDateButton = findViewById(R.id.button_browse_date);
+        browseByDateButton.setOnClickListener(getBrowseByDateListener());
 
-        TextView areaEditText = findViewById(R.id.input_text_browse_area);
+        areaEditText = findViewById(R.id.input_text_browse_area);
+        browseByAreaButton = findViewById(R.id.button_browse_area);
+        browseByAreaButton.setOnClickListener(getBrowseByAreaListener());
 
-        Button browseByAreaButton = findViewById(R.id.button_browse_area);
-        browseByAreaButton.setOnClickListener(view -> {
-            int distance;
-            try {
-                distance = Integer.parseInt(areaEditText.getText().toString());
-            } catch (Exception e) {
-                Toast.makeText(BrowseEventsActivity.this,
-                                "You have to input a number", Toast.LENGTH_LONG).show();
-                return;
-            }
-            Toast.makeText(BrowseEventsActivity.this,
-                    "Your location is: (" + latitude + ", " + longitude + ")", Toast.LENGTH_LONG)
-                    .show();
-            Intent intent = new Intent(BrowseEventsActivity.this, ShowEventsByAreaActivity.class);
-            intent.putExtra(Constants.BROWSE_AREA, distance);
-            intent.putExtra(Constants.LATITUDE, latitude);
-            intent.putExtra(Constants.LONGITUDE, longitude);
-            startActivity(intent);
-        });
-
-        Button showButton = findViewById(R.id.button_show_all);
-        showButton.setOnClickListener(startNewActivity(ShowEventsActivity.class));
+        showAllButton = findViewById(R.id.button_show_all);
+        showAllButton.setOnClickListener(startBrowseAllEventsActivity());
     }
 
     private void fetchEventsFromServer() {
@@ -100,9 +74,53 @@ public class BrowseEventsActivity extends AppCompatActivity {
         thread.start();
     }
 
-    private View.OnClickListener startNewActivity(Class<? extends AppCompatActivity> newActivity) {
+    private View.OnClickListener getBrowseByNameListener() {
         return view -> {
-            Intent intent = new Intent(BrowseEventsActivity.this, newActivity);
+            String name = nameEditText.getText().toString();
+            if (name.trim().isEmpty()) {
+                Toast.makeText(BrowseEventsActivity.this, "You have to provide event name",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+            Intent intent = new Intent(BrowseEventsActivity.this, ShowEventsByNameActivity.class);
+            intent.putExtra(Constants.BROWSE_NAME, name);
+            startActivity(intent);
+        };
+    }
+
+    private View.OnClickListener getBrowseByDateListener() {
+        return view -> {
+            String date = dateEditText.getText().toString();
+            Intent intent = new Intent(BrowseEventsActivity.this, ShowEventsByDateActivity.class);
+            intent.putExtra(Constants.BROWSE_DATE, date);
+            startActivity(intent);
+        };
+    }
+
+    private View.OnClickListener getBrowseByAreaListener() {
+        return view -> {
+            int distance;
+            try {
+                distance = Integer.parseInt(areaEditText.getText().toString());
+            } catch (Exception e) {
+                Toast.makeText(BrowseEventsActivity.this,
+                        "You have to input a number", Toast.LENGTH_LONG).show();
+                return;
+            }
+            Toast.makeText(BrowseEventsActivity.this,
+                            "Your location is: (" + latitude + ", " + longitude + ")", Toast.LENGTH_LONG)
+                    .show();
+            Intent intent = new Intent(BrowseEventsActivity.this, ShowEventsByAreaActivity.class);
+            intent.putExtra(Constants.BROWSE_AREA, distance);
+            intent.putExtra(Constants.LATITUDE, latitude);
+            intent.putExtra(Constants.LONGITUDE, longitude);
+            startActivity(intent);
+        };
+    }
+
+    private View.OnClickListener startBrowseAllEventsActivity() {
+        return view -> {
+            Intent intent = new Intent(BrowseEventsActivity.this, ShowEventsActivity.class);
             startActivity(intent);
         };
     }
