@@ -1,8 +1,10 @@
-package com.example.event_repo_app;
+package com.example.event_repo_app.activity;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.event_repo_app.R;
 
 public class ShareEventsActivity extends AppCompatActivity {
 

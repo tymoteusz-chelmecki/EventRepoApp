@@ -1,4 +1,4 @@
-package com.example.event_repo_app;
+package com.example.event_repo_app.activity;
 
 import static com.example.event_repo_app.Constants.EVENTS_EXTRA;
 
@@ -11,9 +11,13 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.event_repo_app.Constants;
+import com.example.event_repo_app.EventRecyclerViewAdapter;
+import com.example.event_repo_app.EventViewModel;
+import com.example.event_repo_app.R;
 import com.google.gson.Gson;
 
-public class ShowEventsByNameActivity extends AppCompatActivity {
+public class ShowEventsByDateActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private EventRecyclerViewAdapter recyclerViewAdapter;
     private EventViewModel eventViewModel;
@@ -30,13 +34,13 @@ public class ShowEventsByNameActivity extends AppCompatActivity {
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        String name = getIntent().getExtras().getString(Constants.BROWSE_NAME);
+        String date = getIntent().getExtras().getString(Constants.BROWSE_DATE);
         eventViewModel = new ViewModelProvider(this).get(EventViewModel.class);
-        eventViewModel.setQueryName(name);
-        eventViewModel.getEventsByName().observe(this, events -> {
+        eventViewModel.setQueryDate(date);
+        eventViewModel.getEventsByDate().observe(this, events -> {
             recyclerViewAdapter.setEvents(events);
             showMapButton.setOnClickListener(view -> {
-                Intent intent = new Intent(ShowEventsByNameActivity.this, MapActivity.class);
+                Intent intent = new Intent(ShowEventsByDateActivity.this, MapActivity.class);
                 Gson gson = new Gson();
                 String eventsJson = gson.toJson(events);
                 intent.putExtra(EVENTS_EXTRA, eventsJson);

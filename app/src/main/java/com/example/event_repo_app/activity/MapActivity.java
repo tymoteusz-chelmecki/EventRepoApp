@@ -1,4 +1,4 @@
-package com.example.event_repo_app;
+package com.example.event_repo_app.activity;
 
 import static com.example.event_repo_app.Constants.EVENTS_EXTRA;
 
@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.event_repo_app.R;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 

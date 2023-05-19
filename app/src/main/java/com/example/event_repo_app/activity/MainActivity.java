@@ -1,4 +1,4 @@
-package com.example.event_repo_app;
+package com.example.event_repo_app.activity;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -22,6 +22,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.example.event_repo_app.EventApplication;
+import com.example.event_repo_app.R;
 import com.google.gson.Gson;
 
 import java.util.Arrays;

@@ -1,4 +1,4 @@
-package com.example.event_repo_app;
+package com.example.event_repo_app.activity;
 
 import static com.example.event_repo_app.Constants.EVENTS_EXTRA;
 
@@ -11,18 +11,16 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.event_repo_app.EventRecyclerViewAdapter;
+import com.example.event_repo_app.EventViewModel;
+import com.example.event_repo_app.R;
 import com.google.gson.Gson;
 
-import java.util.List;
-
-import database.Event;
-
-public class ShowEventsByAreaActivity extends AppCompatActivity {
+public class ShowEventsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private EventRecyclerViewAdapter recyclerViewAdapter;
     private EventViewModel eventViewModel;
     private Button showMapButton;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,26 +33,16 @@ public class ShowEventsByAreaActivity extends AppCompatActivity {
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        int distance = getIntent().getExtras().getInt(Constants.BROWSE_AREA);
-        double latitude = getDouble(Constants.LATITUDE);
-        double longitude = getDouble(Constants.LONGITUDE);
-
         eventViewModel = new ViewModelProvider(this).get(EventViewModel.class);
         eventViewModel.getAllEvents().observe(this, events -> {
-            List<Event> eventsByArea = eventViewModel
-                    .getEventsByArea(events, distance, latitude, longitude);
-            recyclerViewAdapter.setEvents(eventsByArea);
+            recyclerViewAdapter.setEvents(events);
             showMapButton.setOnClickListener(view -> {
-                Intent intent = new Intent(ShowEventsByAreaActivity.this, MapActivity.class);
+                Intent intent = new Intent(ShowEventsActivity.this, MapActivity.class);
                 Gson gson = new Gson();
-                String eventsJson = gson.toJson(eventsByArea);
+                String eventsJson = gson.toJson(events);
                 intent.putExtra(EVENTS_EXTRA, eventsJson);
                 startActivity(intent);
             });
         });
-    }
-
-    private double getDouble(String key) {
-        return getIntent().getExtras().getDouble(key);
     }
 }

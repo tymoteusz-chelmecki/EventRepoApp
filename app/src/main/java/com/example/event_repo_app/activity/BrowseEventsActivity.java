@@ -1,4 +1,4 @@
-package com.example.event_repo_app;
+package com.example.event_repo_app.activity;
 
 import static java.lang.String.format;
 
@@ -20,6 +20,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.example.event_repo_app.ClientEventFetcher;
+import com.example.event_repo_app.Constants;
+import com.example.event_repo_app.EventApplication;
+import com.example.event_repo_app.EventViewModel;
+import com.example.event_repo_app.R;
 
 import java.util.Locale;
 
