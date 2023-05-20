@@ -7,6 +7,7 @@ public class Constants {
     public static final String LATITUDE = "latitude";
     public static final String LONGITUDE = "longitude";
     public static final String EVENTS_EXTRA = "events_extra";
+    public static final String MAIN_EVENT_EXTRA = "main_event_extra";
 
     private Constants() {}
 }

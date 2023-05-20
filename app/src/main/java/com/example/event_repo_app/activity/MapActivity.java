@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,57 +29,60 @@ import org.osmdroid.views.overlay.ScaleBarOverlay;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import database.Event;
 
 @SuppressWarnings("UnstableApiUsage")
 public class MapActivity extends AppCompatActivity {
-    private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
-    private MapView map = null;
+    private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
+    private static final double MIN_ZOOM_LEVEL = 7.0;
+
+    protected Context context;
+    protected MapView map;
+    protected ArrayList<Event> events;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Context context = getApplicationContext();
+        context = getApplicationContext();
         Configuration.getInstance().load(context,
                 PreferenceManager.getDefaultSharedPreferences(context));
+        requestPermissionsIfNecessary();
 
         setContentView(R.layout.activity_map);
         map = findViewById(R.id.map);
         map.setTileSource(TileSourceFactory.MAPNIK);
+        map.setMinZoomLevel(MIN_ZOOM_LEVEL);
 
+        getEventsFromIntent();
+
+        addEventMarkersToMap();
+
+        setScaleBarOverLay();
+
+        setInitialZoomAndPosition();
+    }
+
+    protected void getEventsFromIntent() {
         Gson gson = new Gson();
         Type eventsType = new TypeToken<List<Event>>() {}.getType();
-        ArrayList<Event> events = gson.fromJson(getIntent().getStringExtra(EVENTS_EXTRA), eventsType);
+        events = gson.fromJson(getIntent().getStringExtra(EVENTS_EXTRA), eventsType);
+    }
 
+    private void setScaleBarOverLay() {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        ScaleBarOverlay scaleBarOverlay = new ScaleBarOverlay(map);
+        scaleBarOverlay.setCentred(true);
+        scaleBarOverlay.setScaleBarOffset(displayMetrics.widthPixels / 2, 10);
+        map.getOverlays().add(scaleBarOverlay);
+    }
+
+    protected void addEventMarkersToMap() {
         for (Event event : events) {
             map.getOverlays().add(getMarker(event));
         }
         map.invalidate();
-
-        DisplayMetrics dm = context.getResources().getDisplayMetrics();
-        ScaleBarOverlay mScaleBarOverlay = new ScaleBarOverlay(map);
-        mScaleBarOverlay.setCentred(true);
-        mScaleBarOverlay.setScaleBarOffset((int) (dm.widthPixels * 0.75), 10);
-        map.getOverlays().add(mScaleBarOverlay);
-
-        map.setMinZoomLevel(7d);
-        map.addOnFirstLayoutListener((v, left, top, right, bottom) -> {
-            double lat = events.get(0).getLatitude();
-            double lon = events.get(0).getLongitude();
-            BoundingBox b = new BoundingBox(lat - 10, lon + 10, lat + 10, lon - 10);
-            map.zoomToBoundingBox(b, false, 100);
-            map.invalidate();
-        });
-
-        requestPermissionsIfNecessary(new String[]{
-                // if you need to show the current location, uncomment the line below
-                // Manifest.permission.ACCESS_FINE_LOCATION,
-                // WRITE_EXTERNAL_STORAGE is required in order to show the map
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-        });
     }
 
     private Marker getMarker(Event event) {
@@ -88,6 +92,35 @@ public class MapActivity extends AppCompatActivity {
         marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
         marker.setTitle(event.getName() + "\n" + event.getLocation());
         return marker;
+    }
+
+    protected void setInitialZoomAndPosition() {
+        double firstLatitude = events.get(0).getLatitude();
+        double firstLongitude = events.get(0).getLongitude();
+        double minLatitude = firstLatitude;
+        double maxLatitude = firstLatitude;
+        double minLongitude = firstLongitude;
+        double maxLongitude = firstLongitude;
+
+        for (Event event : events) {
+            double latitude = event.getLatitude();
+            double longitude = event.getLongitude();
+            minLatitude = Math.min(minLatitude, latitude);
+            maxLatitude = Math.max(maxLatitude, latitude);
+            minLongitude = Math.min(minLongitude, longitude);
+            maxLongitude = Math.max(maxLongitude, longitude);
+        }
+
+        double finalMaxLatitude = maxLatitude;
+        double finalMaxLongitude = maxLongitude;
+        double finalMinLatitude = minLatitude;
+        double finalMinLongitude = minLongitude;
+        map.addOnFirstLayoutListener((v, left, top, right, bottom) -> {
+            BoundingBox box = new BoundingBox(finalMaxLatitude + 0.02, finalMaxLongitude + 0.02,
+                    finalMinLatitude - 0.02, finalMinLongitude - 0.02);
+            map.zoomToBoundingBox(box, false, 100);
+            map.invalidate();
+        });
     }
 
     @Override
@@ -107,29 +140,17 @@ public class MapActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        ArrayList<String> permissionsToRequest = new ArrayList<>(Arrays.asList(permissions));
-        if (permissionsToRequest.size() > 0) {
-            ActivityCompat.requestPermissions(
-                    this,
-                    permissionsToRequest.toArray(new String[0]),
-                    REQUEST_PERMISSIONS_REQUEST_CODE);
+        if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "Failed to get necessary permissions", Toast.LENGTH_LONG).show();
         }
     }
 
-    private void requestPermissionsIfNecessary(String[] permissions) {
-        ArrayList<String> permissionsToRequest = new ArrayList<>();
-        for (String permission : permissions) {
-            if (ContextCompat.checkSelfPermission(this, permission)
+    private void requestPermissionsIfNecessary() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {
-                // Permission is not granted
-                permissionsToRequest.add(permission);
-            }
-        }
-        if (permissionsToRequest.size() > 0) {
-            ActivityCompat.requestPermissions(
-                    this,
-                    permissionsToRequest.toArray(new String[0]),
-                    REQUEST_PERMISSIONS_REQUEST_CODE);
+                ActivityCompat.requestPermissions(this,
+                        new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE },
+                        REQUEST_PERMISSIONS_REQUEST_CODE);
         }
     }
 }

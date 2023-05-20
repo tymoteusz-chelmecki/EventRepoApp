@@ -1,6 +1,7 @@
 package com.example.event_repo_app;
 
 import static com.example.event_repo_app.Constants.EVENTS_EXTRA;
+import static com.example.event_repo_app.Constants.MAIN_EVENT_EXTRA;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,11 +14,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.event_repo_app.activity.MapActivity;
+import com.example.event_repo_app.activity.SingleEventCenteredMapActivity;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -55,10 +55,12 @@ public class EventRecyclerViewAdapter
 
     private View.OnClickListener showOnMap(Event event) {
         return view -> {
-            Intent intent = new Intent(activity, MapActivity.class);
+            Intent intent = new Intent(activity, SingleEventCenteredMapActivity.class);
             Gson gson = new Gson();
-            String eventsJson = gson.toJson(Collections.singletonList(event));
+            String eventsJson = gson.toJson(events);
+            String mainEventJson = gson.toJson(event);
             intent.putExtra(EVENTS_EXTRA, eventsJson);
+            intent.putExtra(MAIN_EVENT_EXTRA, mainEventJson);
             activity.startActivity(intent);
         };
     }
