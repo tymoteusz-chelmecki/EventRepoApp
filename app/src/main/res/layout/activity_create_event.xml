@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     tools:context=".activity.ShareEventsActivity">
 
     <ScrollView
@@ -108,8 +109,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
+                android:backgroundTint="@color/teal"
                 android:text="@string/create_create_button_text"
+                android:textColor="@color/cream"
                 android:textSize="24sp"
+                app:cornerRadius="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -167,7 +171,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:backgroundTint="@color/teal"
                 android:text="@string/create_get_location_text"
+                android:textColor="@color/cream"
+                app:cornerRadius="16dp"
                 app:layout_constraintBottom_toTopOf="@id/create_create_button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

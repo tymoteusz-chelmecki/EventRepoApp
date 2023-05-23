@@ -48,8 +48,6 @@ public class EventRecyclerViewAdapter
                 "%d-%d-%d", event.getDay(), event.getMonth(), event.getYear()));
         holder.startHour.setText(String.format(Locale.getDefault(), "%d:%01d",
                 event.getHour(), event.getMinute()));
-        holder.latitude.setText(String.valueOf(event.getLatitude()));
-        holder.longitude.setText(String.valueOf(event.getLongitude()));
         holder.showOnMap.setOnClickListener(showOnMap(event));
     }
 
@@ -80,8 +78,6 @@ public class EventRecyclerViewAdapter
         private final TextView location;
         private final TextView date;
         private final TextView startHour;
-        private final TextView latitude;
-        private final TextView longitude;
         private final Button showOnMap;
 
         public ViewHolder(@NonNull View itemView) {
@@ -90,8 +86,6 @@ public class EventRecyclerViewAdapter
             location = itemView.findViewById(R.id.item_location);
             date = itemView.findViewById(R.id.item_date);
             startHour = itemView.findViewById(R.id.item_start_hour);
-            latitude = itemView.findViewById(R.id.item_latitude);
-            longitude = itemView.findViewById(R.id.item_longitude);
             showOnMap = itemView.findViewById(R.id.button_show_on_map);
         }
     }
