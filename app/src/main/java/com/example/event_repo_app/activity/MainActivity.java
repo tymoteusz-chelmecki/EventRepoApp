@@ -3,6 +3,10 @@ package com.example.event_repo_app.activity;
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.ACCESS_NETWORK_STATE;
+import static android.Manifest.permission.BLUETOOTH;
+import static android.Manifest.permission.BLUETOOTH_ADMIN;
+import static android.Manifest.permission.BLUETOOTH_CONNECT;
+import static android.Manifest.permission.BLUETOOTH_SCAN;
 import static android.Manifest.permission.INTERNET;
 import static com.example.event_repo_app.Constants.EVENTS_EXTRA;
 import static com.example.event_repo_app.EventApplication.REQUEST_LOCATION_ACCESS;
@@ -10,8 +14,6 @@ import static com.example.event_repo_app.EventApplication.REQUEST_LOCATION_ACCES
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
@@ -35,7 +37,11 @@ public class MainActivity extends AppCompatActivity {
         ACCESS_FINE_LOCATION,
         ACCESS_COARSE_LOCATION,
         INTERNET,
-        ACCESS_NETWORK_STATE
+        ACCESS_NETWORK_STATE,
+        BLUETOOTH,
+        BLUETOOTH_ADMIN,
+        BLUETOOTH_CONNECT,
+        BLUETOOTH_SCAN
     };
 
     @Override
@@ -60,24 +66,26 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        if (ActivityCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED
-                || ActivityCompat.checkSelfPermission(this, ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED
-                || ActivityCompat.checkSelfPermission(this, INTERNET)
-                != PackageManager.PERMISSION_GRANTED
-                || ActivityCompat.checkSelfPermission(this, ACCESS_NETWORK_STATE)
-                != PackageManager.PERMISSION_GRANTED) {
+        boolean hasPermissions = true;
+        for(String permission: PERMISSIONS) {
+            if (ActivityCompat.checkSelfPermission(this, permission)
+                    != PackageManager.PERMISSION_GRANTED) {
+                hasPermissions = false;
+            }
+        }
+        if (!hasPermissions) {
             ActivityCompat.requestPermissions(this, PERMISSIONS, REQUEST_LOCATION_ACCESS);
             return;
         }
-        LocationManager locationManager = (LocationManager)
-                getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 50,
-                new LocationListenerImpl());
+        if (((EventApplication) getApplicationContext()).getLocationManager() == null) {
+            LocationManager locationManager = (LocationManager)
+                    getSystemService(Context.LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 50,
+                    new LocationListenerImpl());
 
-        EventApplication application = (EventApplication) getApplicationContext();
-        application.setLocationManager(locationManager);
+            EventApplication application = (EventApplication) getApplicationContext();
+            application.setLocationManager(locationManager);
+        }
     }
 
     private View.OnClickListener startNewActivity(Class<? extends AppCompatActivity> newActivity) {
@@ -103,14 +111,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class LocationListenerImpl implements LocationListener {
-
-        @Override
-        public void onProviderEnabled(String provider) {
-        }
-
-        @Override
-        public void onLocationChanged(@NonNull Location location) {
-        }
-    }
 }

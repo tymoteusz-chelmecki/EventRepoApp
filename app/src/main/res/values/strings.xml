@@ -32,4 +32,6 @@
 
     <string name="show_map_button_text">Show all events on map</string>
     <string name="show_on_map_button_text">Show on map</string>
+
+    <string name="share_to_device_button_text">Share all events</string>
 </resources>
