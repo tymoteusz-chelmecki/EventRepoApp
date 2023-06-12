@@ -43,7 +43,7 @@ public class ShowLocationActivity extends AppCompatActivity {
         }
 
         LocationListener listener = new LocationListenerImpl();
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 50, listener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, listener);
     }
 
     @Override

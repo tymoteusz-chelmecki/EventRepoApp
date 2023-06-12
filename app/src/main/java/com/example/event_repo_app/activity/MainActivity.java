@@ -25,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.example.event_repo_app.EventApplication;
+import com.example.event_repo_app.EmptyLocationListener;
 import com.example.event_repo_app.R;
 import com.google.gson.Gson;
 
@@ -77,11 +78,12 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, PERMISSIONS, REQUEST_LOCATION_ACCESS);
             return;
         }
+
         if (((EventApplication) getApplicationContext()).getLocationManager() == null) {
             LocationManager locationManager = (LocationManager)
                     getSystemService(Context.LOCATION_SERVICE);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 50,
-                    new LocationListenerImpl());
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,
+                    new EmptyLocationListener());
 
             EventApplication application = (EventApplication) getApplicationContext();
             application.setLocationManager(locationManager);

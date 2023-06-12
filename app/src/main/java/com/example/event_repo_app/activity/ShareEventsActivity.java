@@ -77,12 +77,12 @@ public class ShareEventsActivity extends AppCompatActivity {
 
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
-        String action = intent.getAction();
+            String action = intent.getAction();
 
-        if (BluetoothDevice.ACTION_FOUND.equals(action)) {
-            BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-            recyclerViewAdapter.addDevice(device);
-        }
+            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                recyclerViewAdapter.addDevice(device);
+            }
         }
     };
 

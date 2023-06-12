@@ -4,6 +4,7 @@ import static java.lang.String.format;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.icu.util.Calendar;
 import android.location.Location;
 import android.location.LocationListener;
@@ -23,6 +24,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.event_repo_app.ClientEventSender;
 import com.example.event_repo_app.EventApplication;
 import com.example.event_repo_app.EventViewModel;
+import com.example.event_repo_app.GeoUtils;
 import com.example.event_repo_app.R;
 
 import java.util.Arrays;
@@ -67,9 +69,27 @@ public class CreateEventActivity extends AppCompatActivity {
         Button getCurrentLocationButton = findViewById(R.id.create_get_location_button);
         getCurrentLocationButton.setOnClickListener(view -> fillCurrentLocation());
 
-        locationManager = ((EventApplication) getApplicationContext()).getLocationManager();
+        if (((EventApplication) getApplicationContext()).getLocationManager() == null) {
+            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,
+                    new LocationListenerImpl());
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0,
+                    new LocationListenerImpl());
+
+            EventApplication application = (EventApplication) getApplicationContext();
+            application.setLocationManager(locationManager);
+        } else {
+            locationManager = ((EventApplication) getApplicationContext()).getLocationManager();
+        }
         LocationListener listener = new CreateEventActivity.LocationListenerImpl();
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 50, listener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, listener);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, listener);
+
+        Location lastLocation = GeoUtils.getLastLocation(locationManager);
+        if (lastLocation != null) {
+            latitude = lastLocation.getLatitude();
+            longitude = lastLocation.getLongitude();
+        }
 
         Button createButton = findViewById(R.id.create_create_button);
         createButton.setOnClickListener(view -> submitNewEvent());
@@ -148,5 +168,14 @@ public class CreateEventActivity extends AppCompatActivity {
             latitude = location.getLatitude();
             longitude = location.getLongitude();
         }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+        @Override
+        public void onProviderEnabled(String provider) {}
+
+        @Override
+        public void onProviderDisabled(String provider) {}
     }
 }

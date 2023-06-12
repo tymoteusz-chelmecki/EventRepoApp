@@ -5,6 +5,10 @@ import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
 
+import android.annotation.SuppressLint;
+import android.location.Location;
+import android.location.LocationManager;
+
 public class GeoUtils {
     private static final double EARTH_RADIUS = 6371.0;
     private static final double DEG_TO_RAD = Math.PI / 180.0;
@@ -22,5 +26,21 @@ public class GeoUtils {
 
     private static double degToRad(double deg) {
         return deg * DEG_TO_RAD;
+    }
+
+    @SuppressLint("MissingPermission")
+    public static Location getLastLocation(LocationManager locationManager) {
+        Location locationGPS = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        Location locationNetwork = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        if (locationGPS == null && locationNetwork != null) {
+            return locationNetwork;
+        }
+        if (locationGPS != null && locationNetwork == null) {
+            return locationGPS;
+        }
+        if (locationGPS != null && locationNetwork != null) {
+            return (locationGPS.getTime() > locationNetwork.getTime())? locationGPS : locationNetwork;
+        }
+        return null;
     }
 }
