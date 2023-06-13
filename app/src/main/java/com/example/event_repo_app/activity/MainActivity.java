@@ -8,7 +8,6 @@ import static android.Manifest.permission.BLUETOOTH_ADMIN;
 import static android.Manifest.permission.BLUETOOTH_CONNECT;
 import static android.Manifest.permission.BLUETOOTH_SCAN;
 import static android.Manifest.permission.INTERNET;
-import static com.example.event_repo_app.Constants.EVENTS_EXTRA;
 import static com.example.event_repo_app.EventApplication.REQUEST_LOCATION_ACCESS;
 
 import android.content.Context;
@@ -24,14 +23,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import com.example.event_repo_app.EventApplication;
 import com.example.event_repo_app.EmptyLocationListener;
+import com.example.event_repo_app.EventApplication;
 import com.example.event_repo_app.R;
-import com.google.gson.Gson;
-
-import java.util.Arrays;
-
-import database.Event;
 
 public class MainActivity extends AppCompatActivity {
     private final static String[] PERMISSIONS = new String[]{
@@ -56,16 +50,6 @@ public class MainActivity extends AppCompatActivity {
         browseButton.setOnClickListener(startNewActivity(BrowseEventsActivity.class));
         Button shareButton = findViewById(R.id.button_share);
         shareButton.setOnClickListener(startNewActivity(ShareEventsActivity.class));
-        Button showLocationButton = findViewById(R.id.button_show_location);
-        showLocationButton.setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this, MapActivity.class);
-            Event event1 = new Event("name", "loc", 20, 9, 2023, 12, 45, 10.0, 40.0);
-            Event event2 = new Event("name of e2", "locstion 2", 20, 9, 2023, 12, 45, 25.0, 32.0);
-            Gson gson = new Gson();
-            String eventsJson = gson.toJson(Arrays.asList(event1, event2));
-            intent.putExtra(EVENTS_EXTRA, eventsJson);
-            startActivity(intent);
-        });
 
         boolean hasPermissions = true;
         for(String permission: PERMISSIONS) {

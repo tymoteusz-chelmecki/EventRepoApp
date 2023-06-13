@@ -12,28 +12,9 @@
         android:layout_width="218dp"
         android:layout_height="92dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:backgroundTint="@color/teal"
-        android:text="@string/share_button_text"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/cream"
-        app:cornerRadius="16dp"
-        app:layout_constraintBottom_toTopOf="@id/button_show_location"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.488"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/button_browse" />
-
-    <Button
-        android:id="@+id/button_show_location"
-        android:layout_width="218dp"
-        android:layout_height="92dp"
-        android:layout_marginStart="159dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="159dp"
         android:layout_marginBottom="32dp"
         android:backgroundTint="@color/teal"
-        android:text="@string/show_location_button_text"
+        android:text="@string/share_button_text"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@color/cream"
         app:cornerRadius="16dp"
@@ -41,7 +22,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/button_share" />
+        app:layout_constraintTop_toBottomOf="@id/button_browse" />
 
     <Button
         android:id="@+id/button_browse"
